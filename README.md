@@ -30,8 +30,6 @@ Bundan sonraki günlerde adım adım backend ve frontend servislerini ekleyeceğ
 
 
 
-\## 📦 Altyapıyı Çalıştırma
-
 Servisi çalıştırmak için kullandığım komut:
 
 ```bash
