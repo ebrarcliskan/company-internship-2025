@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/personneldb
+    username: app
+    password: app
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+springdoc:
+  api-docs:
+    enabled: true
+  sagger-ui:
+    path: /swagger-ui.html
+
