@@ -1,45 +1,43 @@
 package com.company.personnelservice.controller;
 
-import com.company.personnelservice.repository.EmployeeRepository;
+import com.company.personnelservice.dto.EmployeeDto;
+import com.company.personnelservice.dto.EmployeeUpdateRequest;
+import com.company.personnelservice.dto.EmployeeCreateRequest;
+import com.company.personnelservice.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-import java.net.URI;
+
 import java.util.List;
-import com.company.personnelservice.entity.Employee;
+
 
 @RestController
 @RequestMapping("/api/employees")
 
 public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService service;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
+    public EmployeeController(EmployeeService service) {
 
-        this.employeeRepository = employeeRepository;
+        this.service = service;
     }
 
     @GetMapping
-    public List<Employee> getAll() {
-        return employeeRepository.findAll();
+    public List<EmployeeDto> getAll() {
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getById(@PathVariable Long id) {
-        return employeeRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<EmployeeDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
 
     }
 
     @PostMapping
-    public ResponseEntity<Employee> create(@Valid @RequestBody Employee req) {
+    public ResponseEntity<EmployeeDto> create(@Valid @RequestBody EmployeeCreateRequest req) {
 
-        Employee saved =employeeRepository.save(req);
-        return ResponseEntity
-                .created(URI.create("/api/employees/"+ saved.getId()))
-                .body(saved);
+        return ResponseEntity.ok(service.create(req));
     }
 
 }
