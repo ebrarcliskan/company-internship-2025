@@ -1,0 +1,15 @@
+# IDE
+.idea/
+*.iml
+out/
+
+#Build
+target/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.swp
