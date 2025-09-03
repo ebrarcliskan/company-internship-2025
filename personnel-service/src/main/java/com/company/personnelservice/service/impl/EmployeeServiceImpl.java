@@ -3,6 +3,7 @@ package com.company.personnelservice.service.impl;
 import com.company.personnelservice.dto.EmployeeDto;
 import com.company.personnelservice.dto.EmployeeUpdateRequest;
 import com.company.personnelservice.dto.EmployeeCreateRequest;
+import com.company.personnelservice.dto.EmployeePatchRequest;
 import com.company.personnelservice.entity.Employee;
 import com.company.personnelservice.mapper.EmployeeMapper;
 import com.company.personnelservice.repository.EmployeeRepository;
@@ -51,7 +52,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public EmployeeDto patch(Long id, EmployeePatchRequest req) {
+        Employee employee = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+        mapper.patch(employee, req);
+        return mapper.toDto(repository.save(employee));
+    }
+
+    @Override
     public void delete(Long id) {
+        if(!repository.existsById(id)) {
+            throw new RuntimeException("Employee not found");
+        }
+
         repository.deleteById(id);
     }
 }

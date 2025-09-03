@@ -3,6 +3,7 @@ package com.company.personnelservice.controller;
 import com.company.personnelservice.dto.EmployeeDto;
 import com.company.personnelservice.dto.EmployeeUpdateRequest;
 import com.company.personnelservice.dto.EmployeeCreateRequest;
+import com.company.personnelservice.dto.EmployeePatchRequest;
 import com.company.personnelservice.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +39,26 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDto> create(@Valid @RequestBody EmployeeCreateRequest req) {
 
         return ResponseEntity.ok(service.create(req));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDto> update(
+            @PathVariable Long id,
+            @Valid @RequestBody EmployeeUpdateRequest req) {
+        return ResponseEntity.ok(service.update(id, req));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<EmployeeDto> patch(
+            @PathVariable Long id,
+            @Valid @RequestBody EmployeePatchRequest req) {
+        return ResponseEntity.ok(service.patch(id, req));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
