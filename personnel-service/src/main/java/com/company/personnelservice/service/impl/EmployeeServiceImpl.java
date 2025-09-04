@@ -10,6 +10,7 @@ import com.company.personnelservice.repository.EmployeeRepository;
 import com.company.personnelservice.service.EmployeeService;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import com.company.personnelservice.exception.NotFoundException;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -46,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto update(Long id, EmployeeUpdateRequest req) {
         Employee employee = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new NotFoundException("Employee not found" + id));
         mapper.updateEntityFromDto(req, employee);
         return mapper.toDto(repository.save(employee));
     }
@@ -54,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto patch(Long id, EmployeePatchRequest req) {
         Employee employee = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new NotFoundException("Employee not found" + id));
         mapper.patch(employee, req);
         return mapper.toDto(repository.save(employee));
     }
@@ -62,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void delete(Long id) {
         if(!repository.existsById(id)) {
-            throw new RuntimeException("Employee not found");
+            throw new NotFoundException("Employee not found" + id);
         }
 
         repository.deleteById(id);

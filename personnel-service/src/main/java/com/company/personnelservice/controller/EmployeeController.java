@@ -8,13 +8,13 @@ import com.company.personnelservice.service.EmployeeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-
 import java.util.List;
-
+import org.springframework.validation.annotation.Validated;
+import jakarta.validation.constraints.Min;
 
 @RestController
 @RequestMapping("/api/employees")
-
+@Validated
 public class EmployeeController {
 
     private final EmployeeService service;
@@ -30,7 +30,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> getById(@PathVariable Long id) {
+    public ResponseEntity<EmployeeDto> getById(@PathVariable @Min(1) Long id) {
         return ResponseEntity.ok(service.getById(id));
 
     }
@@ -43,20 +43,20 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeDto> update(
-            @PathVariable Long id,
+            @PathVariable @Min(1) Long id,
             @Valid @RequestBody EmployeeUpdateRequest req) {
         return ResponseEntity.ok(service.update(id, req));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<EmployeeDto> patch(
-            @PathVariable Long id,
+            @PathVariable @Min(1) Long id,
             @Valid @RequestBody EmployeePatchRequest req) {
         return ResponseEntity.ok(service.patch(id, req));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable @Min(1) Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
