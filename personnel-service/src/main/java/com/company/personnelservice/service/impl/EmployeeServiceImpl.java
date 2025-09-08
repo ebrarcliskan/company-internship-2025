@@ -11,6 +11,9 @@ import com.company.personnelservice.service.EmployeeService;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.company.personnelservice.exception.NotFoundException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -35,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public  EmployeeDto getById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new NotFoundException("Employee not found" + id));
     }
 
     @Override
@@ -68,4 +71,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         repository.deleteById(id);
     }
+
+    @Override
+    public Page<EmployeeDto> search(String query, String department, Pageable pageable) {
+        return repository.search(query, department, pageable)
+                .map(mapper::toDto);
+    }
+
 }

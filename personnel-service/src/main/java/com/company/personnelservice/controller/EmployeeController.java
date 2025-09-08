@@ -5,12 +5,16 @@ import com.company.personnelservice.dto.EmployeeUpdateRequest;
 import com.company.personnelservice.dto.EmployeeCreateRequest;
 import com.company.personnelservice.dto.EmployeePatchRequest;
 import com.company.personnelservice.service.EmployeeService;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import jakarta.validation.constraints.Min;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -25,8 +29,11 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<EmployeeDto> getAll() {
-        return service.getAll();
+    public ResponseEntity<Page<EmployeeDto>> getAll(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String department,
+            @PageableDefault(size = 20) Pageable pageable) {
+        return ResponseEntity.ok(service.search(query, department, pageable));
     }
 
     @GetMapping("/{id}")
