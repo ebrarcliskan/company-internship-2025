@@ -38,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public  EmployeeDto getById(Long id) {
         return repository.findById(id)
                 .map(mapper::toDto)
-                .orElseThrow(() -> new NotFoundException("Employee not found" + id));
+                .orElseThrow(() -> new NotFoundException("Employee not found " + id));
     }
 
     @Override
