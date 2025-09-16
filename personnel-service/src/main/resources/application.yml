@@ -23,12 +23,6 @@ spring:
       org.hibernate.SQL: DEBUG
       org.hibernate.orm.jdbc.bind: TRACE
 
-
-
-
-
-
-
 springdoc:
   api-docs:
     enabled: true
@@ -54,4 +48,8 @@ info:
     description: Personnel microservice for internship project
     version: @project.version@
 
-
+app:
+  security:
+    basic:
+      username: admin
+      password: admin123

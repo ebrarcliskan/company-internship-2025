@@ -19,8 +19,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.core.annotations.ParameterObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
-
+@SecurityRequirement(name ="basicAuth")
 @Tag(name = "Employees", description = "Personel CRUD, arama, sayfalama, sıralama")
 @RestController
 @RequestMapping("/api/employees")
