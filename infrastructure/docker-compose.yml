@@ -7,6 +7,11 @@ services:
       POSTGRES_DB: personneldb
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d personneldb"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -20,3 +25,18 @@ services:
       - "1025:1025"
       - "8025:8025"
 
+  personnel-service:
+    build:
+      context: ../personnel-service
+      dockerfile: Dockerfile
+    container_name: personnel-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/personneldb
+      - SPRING_DATASOURCE_USERNAME=app
+      - SPRING_DATASOURCE_PASSWORD=app
+    ports:
+      - "8081:8081"
